@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Aniversário, Meu Amor! 🎂</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Sacramento&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+        .romantic-font {
+            font-family: 'Sacramento', cursive;
+        }
+        @keyframes flicker {
+            0%, 100% { transform: scale(1) rotate(-2deg); opacity: 0.9; }
+            50% { transform: scale(1.1) rotate(2deg); opacity: 1; filter: drop-shadow(0 0 16px rgba(255, 165, 0, 0.9)); }
+        }
+        .flame {
+            animation: flicker 0.6s infinite alternate ease-in-out;
+            transform-origin: bottom center;
+        }
+        @keyframes float-up-ambient {
+            0% { transform: translateY(105vh) scale(0.6) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.7; }
+            80% { opacity: 0.7; }
+            100% { transform: translateY(-10vh) scale(1.3) rotate(360deg); opacity: 0; }
+        }
+        .ambient-heart {
+            position: fixed;
+            animation: float-up-ambient 7s infinite linear;
+            z-index: 1;
+            pointer-events: none;
+        }
+        @keyframes burst {
+            0% { transform: translateY(0) scale(0.8); opacity: 1; }
+            100% { transform: translateY(-120vh) scale(1.4) rotate(180deg); opacity: 0; }
+        }
+        .burst-item {
+            position: absolute;
+            animation: burst 4s infinite linear;
+            z-index: 30;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-rose-950 via-pink-950 to-slate-950 min-h-screen text-white flex flex-col items-center justify-between p-4 selection:bg-pink-500 selection:text-white relative">
+
+    <!-- Ambient Floating Hearts Background Container -->
+    <div id="ambient-hearts-container" class="absolute inset-0 overflow-hidden pointer-events-none z-0"></div>
+
+    <header class="text-center mt-6 z-10">
+        <h1 class="romantic-font text-5xl md:text-7xl text-pink-300 drop-shadow-md">Feliz Aniversário, Meu Amor!</h1>
+        <p class="text-pink-200/80 text-sm md:text-base mt-2 font-light">Faça um pedido bem bonito e assopre a velinha...</p>
+    </header>
+
+    <main class="flex flex-col items-center justify-center my-auto z-10 w-full max-w-md">
+        <!-- Status Card -->
+        <div id="status-card" class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 mb-6 text-center shadow-xl w-full transition-all duration-500">
+            <div id="mic-status" class="flex items-center justify-center gap-2 text-xs md:text-sm text-pink-200 mb-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-yellow-400 animate-pulse" id="mic-indicator"></span>
+                <span id="mic-text">Ative o microfone para assoprar ou use o botão</span>
+            </div>
+            <div class="flex justify-center gap-3 mt-3">
+                <button id="enable-mic-btn" class="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white text-xs md:text-sm font-semibold px-4 py-2 rounded-full shadow-lg transition transform active:scale-95 flex items-center gap-2">
+                    🎙️ Ativar Microfone
+                </button>
+                <button id="manual-blow-btn" class="bg-white/20 hover:bg-white/30 text-white text-xs md:text-sm font-semibold px-4 py-2 rounded-full shadow-lg transition transform active:scale-95">
+                    💨 Assoprar com Toque
+                </button>
+            </div>
+        </div>
+
+        <!-- The Birthday Cake Container -->
+        <div class="relative flex flex-col items-center cursor-pointer group" id="cake-container" title="Clique para assoprar!">
+            <!-- Candle & Flame -->
+            <div class="relative flex flex-col items-center mb-[-10px] z-20">
+                <div id="candle-flame" class="w-8 h-12 bg-gradient-to-t from-orange-500 via-amber-400 to-yellow-200 rounded-full flame shadow-lg"></div>
+                <div class="w-1.5 h-4 bg-gray-700"></div>
+                <div class="w-6 h-20 bg-gradient-to-r from-pink-300 via-pink-100 to-pink-300 rounded-t-md shadow-md border-b-2 border-pink-400 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,105,180,0.3)_50%,transparent_75%)] bg-[length:10px_10px]"></div>
+                </div>
+            </div>
+
+            <!-- Top Frosting & Cherries -->
+            <div class="w-64 h-10 bg-pink-100 rounded-t-full shadow-md relative z-10 flex justify-around items-center px-6">
+                <div class="w-5 h-5 bg-red-600 rounded-full shadow-inner -mt-3"></div>
+                <div class="w-6 h-6 bg-red-600 rounded-full shadow-inner -mt-4"></div>
+                <div class="w-5 h-5 bg-red-600 rounded-full shadow-inner -mt-3"></div>
+            </div>
+
+            <!-- Cake Body Tier 2 -->
+            <div class="w-56 h-16 bg-gradient-to-r from-rose-400 via-pink-400 to-rose-400 shadow-lg relative z-0 flex items-center justify-around">
+                <div class="w-4 h-4 bg-white/60 rounded-full"></div>
+                <div class="w-4 h-4 bg-white/60 rounded-full"></div>
+                <div class="w-4 h-4 bg-white/60 rounded-full"></div>
+            </div>
+
+            <!-- Cake Base Tier 1 -->
+            <div class="w-72 h-20 bg-gradient-to-r from-pink-500 via-rose-500 to-pink-500 rounded-b-2xl shadow-2xl relative z-0 flex items-end justify-center pb-2 border-t-4 border-pink-300/50">
+                <span class="text-pink-100 font-bold tracking-widest text-xs uppercase opacity-85">Te Amo Muito</span>
+            </div>
+            
+            <!-- Plate -->
+            <div class="w-80 h-4 bg-gray-200/80 rounded-full shadow-2xl -mt-1 z-[-1]"></div>
+        </div>
+    </main>
+
+    <!-- Congrats Modal -->
+    <div id="congrats-modal" class="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none transition-all duration-700">
+        <div class="bg-gradient-to-b from-rose-900 to-slate-900 border border-pink-500/40 rounded-3xl p-6 md:p-8 max-w-md w-full text-center shadow-2xl transform scale-95 transition-all duration-500" id="modal-content">
+            <div class="text-5xl mb-3 animate-bounce">🎉💖✨</div>
+            <h2 class="romantic-font text-4xl md:text-5xl text-pink-300 mb-3">Parabéns, Meu Amor!</h2>
+            <p id="romantic-message" class="text-pink-100/90 text-sm md:text-base leading-relaxed mb-6 font-light">
+                Que o seu dia seja tão maravilhoso quanto o amor que você trouxe pra minha vida. Sou imensamente grato(a) por cada momento ao seu lado. Te amo demais! 🥂❤️
+            </p>
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                <button id="relight-btn" class="bg-white/10 hover:bg-white/20 text-pink-200 border border-pink-400/30 font-semibold px-5 py-2.5 rounded-full text-sm transition">
+                    🔄 Acender de Novo
+                </button>
+                <button id="music-replay-btn" class="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-semibold px-5 py-2.5 rounded-full text-sm shadow-lg transition">
+                    🎶 Tocar Música Novamente
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center text-xs text-pink-300/60 z-10 py-2">
+        Feito com todo amor do mundo para você ❤️
+    </footer>
+
+    <script>
+        // DOM Elements
+        const flame = document.getElementById('candle-flame');
+        const cakeContainer = document.getElementById('cake-container');
+        const enableMicBtn = document.getElementById('enable-mic-btn');
+        const manualBlowBtn = document.getElementById('manual-blow-btn');
+        const micIndicator = document.getElementById('mic-indicator');
+        const micText = document.getElementById('mic-text');
+        const congratsModal = document.getElementById('congrats-modal');
+        const modalContent = document.getElementById('modal-content');
+        const relightBtn = document.getElementById('relight-btn');
+        const musicReplayBtn = document.getElementById('music-replay-btn');
+        const ambientHeartsContainer = document.getElementById('ambient-hearts-container');
+
+        let isExtinguished = false;
+        let audioCtx = null;
+        let analyser = null;
+        let microphone = null;
+        let mediaStream = null;
+        let isListening = false;
+        let animationFrameId = null;
+
+        // Generate Ambient Floating Hearts constantly
+        function createAmbientHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('ambient-heart');
+            const symbols = ['❤️', '💖', '💗', '💓', '🌸', '✨'];
+            heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+            
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 1.2 + 0.8) + 'rem';
+            
+            const duration = Math.random() * 4 + 5; // 5 to 9 seconds
+            heart.style.animationDuration = duration + 's';
+            
+            ambientHeartsContainer.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, duration * 1000);
+        }
+
+        // Spawn ambient hearts every 400ms
+        setInterval(createAmbientHeart, 400);
+
+        // "Parabéns para Você" melody synthesis via Web Audio API
+        // Notes frequencies and relative durations (beats)
+        function playHappyBirthdaySong() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                if (ctx.state === 'suspended') {
+                    ctx.resume();
+                }
+
+                // C major scale frequencies
+                const C4 = 261.63, D4 = 293.66, E4 = 329.63, F4 = 349.23, G4 = 392.00, C5 = 523.25, A4 = 440.00, B4 = 493.88;
+
+                // Song sequence: [frequency, durationInSeconds]
+                const song = [
+                    [C4, 0.25], [C4, 0.25], [D4, 0.5], [C4, 0.5], [F4, 0.5], [E4, 1.0], // Par-a-béns a vo-cê
+                    [C4, 0.25], [C4, 0.25], [D4, 0.5], [C4, 0.5], [G4, 0.5], [F4, 1.0], // Nesta da-ta que-ri-da
+                    [C4, 0.25], [C4, 0.25], [C5, 0.5], [A4, 0.5], [F4, 0.5], [E4, 0.5], [D4, 0.75], // Muita fe-licidade
+                    [B4, 0.25], [B4, 0.25], [A4, 0.5], [F4, 0.5], [G4, 0.5], [F4, 1.2]  // Muita anos de vi-da
+                ];
+
+                let timeOffset = ctx.currentTime + 0.1;
+
+                song.forEach(([freq, duration]) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, timeOffset);
+
+                    gain.gain.setValueAtTime(0.18, timeOffset);
+                    gain.gain.exponentialRampToValueAtTime(0.001, timeOffset + duration - 0.05);
+
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+
+                    osc.start(timeOffset);
+                    osc.stop(timeOffset + duration);
+
+                    timeOffset += duration;
+                });
+            } catch (e) {
+                console.log('Audio playback notice:', e);
+            }
+        }
+
+        // Blow out candle function
+        function blowOutCandle() {
+            if (isExtinguished) return;
+            isExtinguished = true;
+
+            // Turn off flame
+            flame.style.opacity = '0';
+            flame.style.transform = 'scale(0.2)';
+            flame.style.transition = 'all 0.3s ease-out';
+
+            // Stop microphone listening if active
+            stopMic();
+
+            // Play celebratory song
+            playHappyBirthdaySong();
+
+            // Trigger burst of celebratory hearts and sparkles
+            createBurstEffects();
+
+            // Show modal after slight delay
+            setTimeout(() => {
+                congratsModal.classList.remove('opacity-0', 'pointer-events-none');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }, 600);
+        }
+
+        // Relight candle function
+        function relightCandle() {
+            isExtinguished = false;
+            flame.style.opacity = '0.9';
+            flame.style.transform = 'scale(1)';
+            
+            congratsModal.classList.add('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+        }
+
+        cakeContainer.addEventListener('click', blowOutCandle);
+        manualBlowBtn.addEventListener('click', blowOutCandle);
+        relightBtn.addEventListener('click', relightCandle);
+        musicReplayBtn.addEventListener('click', playHappyBirthdaySong);
+
+        // Microphone Setup using MediaStream API & AnalyserNode
+        enableMicBtn.addEventListener('click', async () => {
+            if (isListening) {
+                stopMic();
+                return;
+            }
+
+            try {
+                mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioCtx.createAnalyser();
+                microphone = audioCtx.createMediaStreamSource(mediaStream);
+                
+                microphone.connect(analyser);
+                analyser.fftSize = 512;
+                
+                isListening = true;
+                micIndicator.classList.remove('bg-yellow-400');
+                micIndicator.classList.add('bg-green-400');
+                micText.textContent = 'Microfone ativo! Chegue perto e assopre 💨';
+                enableMicBtn.textContent = '🛑 Desativar Mic';
+                enableMicBtn.classList.remove('from-pink-500', 'to-rose-500');
+                enableMicBtn.classList.add('from-gray-600', 'to-gray-700');
+
+                detectBlow();
+            } catch (err) {
+                console.error('Erro ao acessar o microfone:', err);
+                micText.textContent = 'Permissão negada ou mic indisponível. Use o botão de toque!';
+                micIndicator.classList.remove('bg-yellow-400');
+                micIndicator.classList.add('bg-red-500');
+            }
+        });
+
+        function stopMic() {
+            if (mediaStream) {
+                mediaStream.getTracks().forEach(track => track.stop());
+                mediaStream = null;
+            }
+            if (audioCtx && audioCtx.state !== 'closed' && !isExtinguished) {
+                // Keep audio context if needed or close safely
+            }
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+            }
+            isListening = false;
+            micIndicator.classList.remove('bg-green-400', 'bg-red-500');
+            micIndicator.classList.add('bg-yellow-400');
+            micText.textContent = 'Ative o microfone para assoprar ou use o botão';
+            enableMicBtn.textContent = '🎙️ Ativar Microfone';
+            enableMicBtn.classList.remove('from-gray-600', 'to-gray-700');
+            enableMicBtn.classList.add('from-pink-500', 'to-rose-500');
+        }
+
+        function detectBlow() {
+            if (!isListening) return;
+
+            const bufferLength = analyser.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+            analyser.getByteFrequencyData(dataArray);
+
+            let sum = 0;
+            for (let i = 0; i < bufferLength; i++) {
+                sum += dataArray[i];
+            }
+            let average = sum / bufferLength;
+
+            if (average > 35 && !isExtinguished) {
+                blowOutCandle();
+                return;
+            }
+
+            animationFrameId = requestAnimationFrame(detectBlow);
+        }
+
+        // Festive Burst Effect when Candle is Extinguished
+        function createBurstEffects() {
+            const symbols = ['❤️', '💖', '✨', '🎉', '💕', '⭐', '🌹'];
+            const container = document.body;
+
+            for (let i = 0; i < 50; i++) {
+                const el = document.createElement('div');
+                el.classList.add('burst-item');
+                el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                
+                el.style.left = Math.random() * 100 + 'vw';
+                el.style.bottom = '-50px';
+                el.style.fontSize = (Math.random() * 1.8 + 1) + 'rem';
+                el.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                el.style.animationDelay = (Math.random() * 0.4) + 's';
+                
+                container.appendChild(el);
+
+                setTimeout(() => {
+                    el.remove();
+                }, 5000);
+            }
+        }
+    </script>
+</body>
+</html>
